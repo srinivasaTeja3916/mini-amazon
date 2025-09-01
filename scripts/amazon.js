@@ -24,7 +24,7 @@ products.forEach((product) => {
 
     <div class="product-price">$${product.priceCents / 100}</div>
     <div class="product-quantity-container">
-      <select name="amazonName">
+      <select name="amazonName" class="js-quantity-selector-${product.id}">
         <option selected value="1">
           1
         </option>
@@ -53,18 +53,22 @@ products.forEach((product) => {
 document.querySelector(".products-grid").innerHTML = htmlText;
 document.querySelectorAll(".button-primary").forEach((element, i) => {
   element.addEventListener("click", () => {
+    let quantity = Number(
+      document.querySelector(`.js-quantity-selector-${products[i].id}`).value
+    );
     let present;
     cart.forEach((ele) => {
       if (ele.productId === products[i].id) {
         present = ele;
       }
     });
+
     if (present) {
-      present.quantity += 1;
+      present.quantity += quantity;
     } else {
       cart.push({
         productId: products[i].id,
-        quantity: 1,
+        quantity, //Property and right side value-name(quantity) both are same,
       });
     }
     let cartQuantity = 0;
@@ -74,7 +78,3 @@ document.querySelectorAll(".button-primary").forEach((element, i) => {
     document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
 });
-
-// for (let i = 0; i < products.length; i++) {
-//   console.log(document.querySelectorAll(".button-primary"));
-// }
