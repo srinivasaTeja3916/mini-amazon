@@ -60,16 +60,21 @@ document.querySelectorAll(".button-primary").forEach((element, i) => {
       }
     });
     if (present) {
-      present.quatity += 1;
+      present.quantity += 1;
     } else {
       cart.push({
         productId: products[i].id,
-        quatity: 1,
+        quantity: 1,
       });
     }
-    console.log(cart);
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+    document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
 });
+
 // for (let i = 0; i < products.length; i++) {
 //   console.log(document.querySelectorAll(".button-primary"));
 // }
