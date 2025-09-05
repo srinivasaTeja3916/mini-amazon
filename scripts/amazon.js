@@ -1,3 +1,5 @@
+import { cart } from "../data/cart.js";
+import { products } from "../data/products.js";
 let htmlText = "";
 products.forEach((product) => {
   htmlText += `
@@ -42,33 +44,53 @@ products.forEach((product) => {
 
     <div class="product-spacer"></div>
 
-    <div class="added-to-cart">
+    <div class="added-to-cart just-added-${product.id}">
       <img src="images/icons/checkmark.png" />
       Added
     </div>
-
-    <button class="add-to-cart-button button-primary">Add to Cart</button>
+    <button class="add-to-cart-button button-primary" data-product-id="${
+      product.id
+    }">Add to Cart</button>
   </div>`;
 });
 document.querySelector(".products-grid").innerHTML = htmlText;
-document.querySelectorAll(".button-primary").forEach((element, i) => {
+let fresh;
+document.querySelectorAll(".button-primary").forEach((element) => {
+  //1st EventListener
   element.addEventListener("click", () => {
+    const productId = element.dataset.productId;
+
+    let addedToCart = document.querySelector(`.just-added-${productId}`);
+    addedToCart.classList.add("recently-added");
+    setTimeout(() => {
+      if (fresh) {
+        clearTimeout(fresh);
+      }
+      const newElement = setTimeout(() => {
+        console.log(productId);
+        addedToCart.classList.remove("recently-added");
+      }, 2000);
+      fresh = newElement;
+    });
+  });
+  //2nd EventListener
+  element.addEventListener("click", () => {
+    const productId = element.dataset.productId;
     let quantity = Number(
-      document.querySelector(`.js-quantity-selector-${products[i].id}`).value
+      document.querySelector(`.js-quantity-selector-${productId}`).value
     );
     let present;
     cart.forEach((ele) => {
-      if (ele.productId === products[i].id) {
+      if (ele.productId === productId) {
         present = ele;
       }
     });
-
     if (present) {
       present.quantity += quantity;
     } else {
       cart.push({
-        productId: products[i].id,
-        quantity, //Property and right side value-name(quantity) both are same,
+        productId,
+        quantity, //Property and right side value-name(productId,quantity) both are same,
       });
     }
     let cartQuantity = 0;
