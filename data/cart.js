@@ -1,4 +1,4 @@
-export let cart = [
+export let cart = JSON.parse(localStorage.getItem("cart")) || [
   {
     productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     quantity: 1,
@@ -30,6 +30,8 @@ export function addToCart(productId) {
       quantity,
     });
   }
+  saveToStorage();
+
   //updating cart
   let cartQuantity = 0;
   cart.forEach((item) => {
@@ -37,7 +39,9 @@ export function addToCart(productId) {
   });
   document.querySelector(".cart-quantity").innerHTML = cartQuantity;
 }
-
+export function saveToStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 export function removeFromCart(productId) {
   let newCart = [];
   cart.forEach((item) => {
@@ -46,4 +50,6 @@ export function removeFromCart(productId) {
     }
   });
   cart = newCart;
+
+  saveToStorage();
 }
