@@ -1,4 +1,4 @@
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 let htmlText = "";
@@ -54,7 +54,7 @@ products.forEach((product) => {
     }">Add to Cart</button>
   </div>`;
 });
-
+document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
 function addedAnimation(productId) {
   let addedToCart = document.querySelector(`.just-added-${productId}`);
   addedToCart.classList.add("recently-added");

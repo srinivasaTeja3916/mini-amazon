@@ -23,21 +23,22 @@ export function addToCart(productId) {
     }
   });
   if (present) {
-    present.quantity += quantity;
+    present.quantity += Number(quantity);
   } else {
     cart.push({
       productId,
       quantity,
     });
   }
+  document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
   saveToStorage();
-
-  //updating cart
+}
+export function calculateCartQuantity() {
   let cartQuantity = 0;
   cart.forEach((item) => {
-    cartQuantity += item.quantity;
+    cartQuantity += Number(item.quantity);
   });
-  document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+  return cartQuantity;
 }
 export function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
