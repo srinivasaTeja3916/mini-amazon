@@ -63,7 +63,6 @@ function addedAnimation(productId) {
       clearTimeout(fresh);
     }
     const newElement = setTimeout(() => {
-      console.log(productId);
       addedToCart.classList.remove("recently-added");
     }, 2000);
     fresh = newElement;
