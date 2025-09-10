@@ -5,32 +5,22 @@ import {
   saveToStorage,
   updateDeliveryOption,
 } from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { getProduct, products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
-export function renderHtml() {
+import {
+  deliveryOptions,
+  getDeliveryOption,
+} from "../../data/deliveryOptions.js";
+export function renderOrderSummary() {
   let checkhtml = "";
   cart.forEach((element) => {
     const productId = element.productId;
     const quantity = element.quantity;
-    let matchingItem;
-
-    products.forEach((productItem) => {
-      if (productItem.id === productId) {
-        matchingItem = productItem;
-      }
-    });
-
+    const matchingItem = getProduct(productId);
     const deliveryOptionId = element.deliveryOptionId;
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
@@ -57,28 +47,28 @@ export function renderHtml() {
               matchingItem.priceCents
             )}</div>
             <div class="product-quantity">
-              <span> Quantity: <span class="quantity-label quantity-label-${
-                matchingItem.id
-              }">${quantity}</span> </span>
-              <span class="update-quantity-link link-primary upadate-quantity-${
-                matchingItem.id
-              }" data-product-id = "${matchingItem.id}">
-              Update
-              
-              </span>
-              <input class="quantity-input quantity-input-${
-                matchingItem.id
-              }" data-product-id="${
+            <span> Quantity: <span class="quantity-label quantity-label-${
+              matchingItem.id
+            }">${quantity}</span> </span>
+            <span class="update-quantity-link link-primary upadate-quantity-${
+              matchingItem.id
+            }" data-product-id = "${matchingItem.id}">
+            Update
+            
+            </span>
+            <input class="quantity-input quantity-input-${
+              matchingItem.id
+            }" data-product-id="${
       matchingItem.id
     }" type="number" name="amazonValue">
-              <span class="save-quantity-link link-primary" data-product-id="${
-                matchingItem.id
-              }">Save</span>
-              <span class="delete-quantity-link link-primary" data-product-id="${
-                matchingItem.id
-              }">
-              Delete
-              </span>
+            <span class="save-quantity-link link-primary" data-product-id="${
+              matchingItem.id
+            }">Save</span>
+            <span class="delete-quantity-link link-primary" data-product-id="${
+              matchingItem.id
+            }">
+            Delete
+            </span>
             </div>
             </div>
 
@@ -183,12 +173,13 @@ export function renderHtml() {
     document.querySelectorAll(".quantity-input").forEach((inputElement) => {
       const productId = inputElement.dataset.productId;
       let newvalue = document.querySelector(`.quantity-input-${productId}`);
-      newvalue.addEventListener("keydown", (event) => {
+      newvalue.addEventListener("keypress", (event) => {
         const container = document.querySelector(
           `.js-cart-container-${productId}`
         );
         let newValue = newvalue.value;
-        if (event.key == "Enter") {
+
+        if (event.key === "Enter") {
           cart.forEach((element) => {
             if (element.productId === productId) {
               if (newValue == "") {
@@ -226,7 +217,7 @@ export function renderHtml() {
     newElement.addEventListener("click", () => {
       const { productId, deliveryOptionId } = newElement.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
-      renderHtml();
+      renderOde();
     });
   });
 }
