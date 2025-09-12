@@ -58,20 +58,17 @@ document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
 function addedAnimation(productId) {
   let addedToCart = document.querySelector(`.just-added-${productId}`);
   addedToCart.classList.add("recently-added");
-  setTimeout(() => {
-    if (fresh) {
-      clearTimeout(fresh);
-    }
-    const newElement = setTimeout(() => {
-      addedToCart.classList.remove("recently-added");
-    }, 2000);
-    fresh = newElement;
-  });
+  if (fresh[productId]) {
+    clearTimeout(fresh[productId]);
+  }
+  fresh[productId] = setTimeout(() => {
+    addedToCart.classList.remove("recently-added");
+  }, 2000);
 }
 
 document.querySelector(".products-grid").innerHTML = htmlText;
 
-let fresh;
+let fresh = {};
 document.querySelectorAll(".button-primary").forEach((element) => {
   //1st EventListener
   element.addEventListener("click", () => {
