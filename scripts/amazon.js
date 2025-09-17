@@ -1,9 +1,13 @@
 import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
-let htmlText = "";
-products.forEach((product) => {
-  htmlText += `
+
+loadProducts(renderProductsGrid);
+
+function renderProductsGrid() {
+  let htmlText = "";
+  products.forEach((product) => {
+    htmlText += `
   <div class="product-container">
     <div class="product-image-container">
       <img
@@ -51,27 +55,28 @@ products.forEach((product) => {
       product.id
     }">Add to Cart</button>
   </div>`;
-});
-document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
-function addedAnimation(productId) {
-  let addedToCart = document.querySelector(`.just-added-${productId}`);
-  addedToCart.classList.add("recently-added");
-  if (fresh[productId]) {
-    clearTimeout(fresh[productId]);
-  }
-  fresh[productId] = setTimeout(() => {
-    addedToCart.classList.remove("recently-added");
-  }, 2000);
-}
-
-document.querySelector(".products-grid").innerHTML = htmlText;
-
-let fresh = {};
-document.querySelectorAll(".button-primary").forEach((element) => {
-  //1st EventListener
-  element.addEventListener("click", () => {
-    const productId = element.dataset.productId;
-    addedAnimation(productId);
-    addToCart(productId);
   });
-});
+  document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
+  function addedAnimation(productId) {
+    let addedToCart = document.querySelector(`.just-added-${productId}`);
+    addedToCart.classList.add("recently-added");
+    if (fresh[productId]) {
+      clearTimeout(fresh[productId]);
+    }
+    fresh[productId] = setTimeout(() => {
+      addedToCart.classList.remove("recently-added");
+    }, 2000);
+  }
+
+  document.querySelector(".products-grid").innerHTML = htmlText;
+
+  let fresh = {};
+  document.querySelectorAll(".button-primary").forEach((element) => {
+    //1st EventListener
+    element.addEventListener("click", () => {
+      const productId = element.dataset.productId;
+      addedAnimation(productId);
+      addToCart(productId);
+    });
+  });
+}
