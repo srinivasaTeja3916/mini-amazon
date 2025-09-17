@@ -1,9 +1,9 @@
 import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsFetch } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
-
-loadProducts(renderProductsGrid);
-
+loadProductsFetch().then(() => {
+  renderProductsGrid();
+});
 function renderProductsGrid() {
   let htmlText = "";
   products.forEach((product) => {
@@ -27,7 +27,7 @@ function renderProductsGrid() {
       }</div>
     </div>
 
-    <div class="product-price">${product.getPrice()}</div>
+    <div class="product-price">$${product.getPrice()}</div>
     <div class="product-quantity-container">
       <select name="amazonName" class="js-quantity-selector-${product.id}">
         <option selected value="1">
@@ -80,3 +80,5 @@ function renderProductsGrid() {
     });
   });
 }
+// renderProductsGrid();
+// console.log(loadProductsFetch().products);
