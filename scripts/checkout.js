@@ -4,15 +4,15 @@ import { loadProducts, loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 import "../data/products.js";
 
-Promise.all([
-  loadProductsFetch(),
-  new Promise((resolve) => {
+async function loadPage() {
+  await loadProductsFetch();
+  await new Promise((resolve) => {
     loadCart(() => {
       resolve();
     });
-  }),
-]).then(() => {
-  console.log();
+  });
   renderOrderSummary();
   renderPaymentSummary();
-});
+}
+
+loadPage();
