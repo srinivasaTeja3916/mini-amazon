@@ -80,5 +80,3 @@ function renderProductsGrid() {
     });
   });
 }
-// renderProductsGrid();
-// console.log(loadProductsFetch().products);
