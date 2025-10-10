@@ -59,7 +59,7 @@ export function renderOrderSummary() {
               matchingItem.id
             }" data-product-id="${
       matchingItem.id
-    }" type="number" name="amazonValue">
+    }" type="number" value=${quantity} name="amazonValue">
             <span class="save-quantity-link link-primary" data-product-id="${
               matchingItem.id
             }">Save</span>
@@ -152,23 +152,35 @@ export function renderOrderSummary() {
           );
           let newValue = document.querySelector(`.quantity-input-${productId}`);
           cart.forEach((element) => {
+            let someNewValue = element.quantity;
             if (element.productId === productId) {
-              if (newValue.value === "") {
-                newValue.value = 0;
+              if (newValue.value < 0) {
+                alert("Not a valid quantity");
+              } else if (newValue.value == "") {
+                element.quantity = someNewValue;
+                saveToStorage();
+                renderOrderSummary();
+                renderPaymentSummary();
+                container.classList.remove("is-editing-quantity");
               } else if (newValue.value > 0) {
                 element.quantity = Number(newValue.value);
-              }
-              saveToStorage();
-              document.querySelector(`.quantity-label-${productId}`).innerHTML =
-                element.quantity;
-              document.querySelector(".return-to-home-link").innerHTML = `
+                saveToStorage();
+                document.querySelector(
+                  `.quantity-label-${productId}`
+                ).innerHTML = element.quantity;
+                document.querySelector(".return-to-home-link").innerHTML = `
                 ${calculateCartQuantity()} Items`;
-              renderOrderSummary();
-              renderPaymentSummary();
+                renderOrderSummary();
+                renderPaymentSummary();
+                container.classList.remove("is-editing-quantity");
+              } else if (newValue.value == 0) {
+                removeFromCart(productId);
+                renderOrderSummary();
+                renderPaymentSummary();
+                container.classList.remove("is-editing-quantity");
+              }
             }
           });
-
-          container.classList.remove("is-editing-quantity");
         });
       });
   }
@@ -184,22 +196,35 @@ export function renderOrderSummary() {
 
         if (event.key === "Enter") {
           cart.forEach((element) => {
+            let someNewValue = element.quantity;
             if (element.productId === productId) {
-              if (newValue == "") {
-                newValue = 0;
+              if (newValue < 0) {
+                alert("Not a valid quantity");
               } else if (newValue > 0) {
                 element.quantity = Number(newValue);
-              }
-              saveToStorage();
-              document.querySelector(`.quantity-label-${productId}`).innerHTML =
-                element.quantity;
-              document.querySelector(".return-to-home-link").innerHTML = `
+                saveToStorage();
+                document.querySelector(
+                  `.quantity-label-${productId}`
+                ).innerHTML = element.quantity;
+                document.querySelector(".return-to-home-link").innerHTML = `
                 ${calculateCartQuantity()} Items`;
-              renderOrderSummary();
-              renderPaymentSummary();
+                renderOrderSummary();
+                renderPaymentSummary();
+                container.classList.remove("is-editing-quantity");
+              } else if (newValue == "") {
+                element.quantity = someNewValue;
+                saveToStorage();
+                renderOrderSummary();
+                renderPaymentSummary();
+                container.classList.remove("is-editing-quantity");
+              } else if (newValue == 0) {
+                removeFromCart(productId);
+                renderOrderSummary();
+                renderPaymentSummary();
+                container.classList.remove("is-editing-quantity");
+              }
             }
           });
-          container.classList.remove("is-editing-quantity");
         }
       });
     });
