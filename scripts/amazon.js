@@ -56,7 +56,7 @@ function renderProductsGrid() {
     }">Add to Cart</button>
   </div>`;
   });
-  document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
+
   function addedAnimation(productId) {
     let addedToCart = document.querySelector(`.just-added-${productId}`);
     addedToCart.classList.add("recently-added");
@@ -69,6 +69,7 @@ function renderProductsGrid() {
   }
 
   document.querySelector(".products-grid").innerHTML = htmlText;
+  document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
 
   let fresh = {};
   document.querySelectorAll(".button-primary").forEach((element) => {

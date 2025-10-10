@@ -1,4 +1,4 @@
-import { cart, calculateCartQuantity } from "../../data/cart.js";
+import { cart, calculateCartQuantity, saveToStorage } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
@@ -52,6 +52,21 @@ export function renderPaymentSummary() {
     </button>
   `;
   document.querySelector(".payment-summary").innerHTML = paymentSummaryHtML;
+  const common = document.querySelector(".place-order-button");
+  if (calculateCartQuantity() === 0) {
+    common.classList.add("payment-button-disabled");
+
+    const noProducts = `<div class="noProducts">
+    <div class="nrml-text">Your cart is empty.</div>
+    <button class="referal-to-products"> View products</button></div>`;
+    document.querySelector(".where-no-products").innerHTML = noProducts;
+
+    document
+      .querySelector(".referal-to-products")
+      .addEventListener("click", () => {
+        window.location.href = "amazon.html";
+      });
+  }
   document
     .querySelector(".js-payment-order")
     .addEventListener("click", async () => {
@@ -71,5 +86,7 @@ export function renderPaymentSummary() {
         console.log("Unexpected error. Try again later");
       }
       window.location.href = "orders.html";
+      cart.splice(0, cart.length);
+      saveToStorage();
     });
 }

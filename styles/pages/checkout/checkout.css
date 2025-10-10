@@ -20,6 +20,28 @@
   margin-bottom: 18px;
 }
 
+.nrml-text {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+
+.referal-to-products {
+  padding: 8px 15px 8px 15px;
+  font-size: 16px;
+  color: rgb(33, 33, 33);
+  background-color: rgb(255, 216, 20);
+  border: 1px solid rgb(252, 210, 0);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+}
+
+.payment-button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .checkout-grid {
   display: grid;
   /* Here, 1fr means the first column will take
