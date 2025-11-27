@@ -206,8 +206,6 @@ export function renderOrderSummary() {
                 document.querySelector(
                   `.quantity-label-${productId}`
                 ).innerHTML = element.quantity;
-                document.querySelector(".return-to-home-link").innerHTML = `
-                ${calculateCartQuantity()} Items`;
                 renderOrderSummary();
                 renderPaymentSummary();
                 container.classList.remove("is-editing-quantity");
@@ -238,7 +236,7 @@ export function renderOrderSummary() {
 
   document.querySelector(
     ".return-to-home-link"
-  ).innerHTML = `${calculateCartQuantity()} Items`;
+  ).innerHTML = `${calculateCartQuantity()} items`;
 
   deletion();
   updation();

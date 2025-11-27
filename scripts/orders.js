@@ -2,9 +2,7 @@ import { getProduct, loadProductsFetch } from "../data/products.js";
 import { orders } from "../data/orders.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { formatCurrency } from "./utils/money.js";
-import { calculateCartQuantity, cart } from "../data/cart.js";
-import { renderOrderSummary } from "./checkout/orderSummary.js";
-import { renderPaymentSummary } from "./checkout/paymentSummary.js";
+import { addToCart, calculateCartQuantity, cart } from "../data/cart.js";
 
 async function loadPage() {
   await loadProductsFetch();
@@ -64,7 +62,9 @@ async function loadPage() {
           <div class="product-quantity">
             Quantity: ${productDetails.quantity}
           </div>
-          <button class="buy-again-button button-primary">
+          <button class="buy-again-button button-primary js-buy-again" data-product-id="${
+            product.id
+          }">
             <img class="buy-again-icon" src="images/icons/buy-again.png">
             <span class="buy-again-message">Buy it again</span>
           </button>
@@ -84,6 +84,36 @@ async function loadPage() {
   }
   document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
   document.querySelector(".orders-grid").innerHTML = ordersHTML;
+  document.querySelectorAll(".js-buy-again").forEach((button) => {
+    button.addEventListener("click", () => {
+      addToCart(button.dataset.productId);
+      button.innerHTML = `<div class="buy-again-success">✔ Added</div> `;
+      setTimeout(() => {
+        button.innerHTML = `
+          <img class="buy-again-icon" src="images/icons/buy-again.png">
+          <span class="buy-again-message">Buy it again</span>
+        `;
+      }, 1000);
+    });
+  });
 }
 
 loadPage();
+document.querySelector(".search-button").addEventListener("click", () => {
+  const search = document.querySelector(".search-bar").value;
+  if (search != "") {
+    window.location.href = `amazon.html?search=${search}`;
+  } else {
+    window.location.href = "amazon.html";
+  }
+});
+document.querySelector(".search-bar").addEventListener("keypress", (event) => {
+  if (event.key == "Enter") {
+    const search = document.querySelector(".search-bar").value;
+    if (search != "") {
+      window.location.href = `amazon.html?search=${search}`;
+    } else {
+      window.location.href = "amazon.html";
+    }
+  }
+});

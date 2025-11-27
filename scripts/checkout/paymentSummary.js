@@ -59,7 +59,7 @@ export function renderPaymentSummary() {
     const noProducts = `<div class="noProducts">
     <div class="nrml-text">Your cart is empty.</div>
     <button class="referal-to-products"> View products</button></div>`;
-    document.querySelector(".where-no-products").innerHTML = noProducts;
+    document.querySelector(".order-summary").innerHTML = noProducts;
 
     document
       .querySelector(".referal-to-products")

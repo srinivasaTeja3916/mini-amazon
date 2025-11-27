@@ -3,7 +3,7 @@
   padding-left: 30px;
   padding-right: 30px;
 
-  margin-top: 140px;
+  margin-top: 121px;
   margin-bottom: 100px;
 
   /* margin-left: auto;
@@ -22,7 +22,7 @@
 
 .nrml-text {
   margin-bottom: 10px;
-  font-size: 17px;
+  font-size: 16px;
 }
 
 .referal-to-products {
@@ -76,7 +76,7 @@
 }
 
 .payment-summary {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 @media (max-width: 1000px) {
@@ -252,6 +252,6 @@
   padding-bottom: 12px;
   border-radius: 8px;
 
-  margin-top: 11px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 14px;
 }

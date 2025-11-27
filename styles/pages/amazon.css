@@ -4,7 +4,6 @@
 
 .products-grid {
   display: grid;
-
   /* - In CSS Grid, 1fr means a column will take up the
        remaining space in the grid.
      - If we write 1fr 1fr ... 1fr; 8 times, this will
@@ -25,6 +24,13 @@
   .products-grid {
     grid-template-columns: repeat(7, 1fr);
   }
+}
+.empty-results-message {
+  display: none;          /* hidden by default */
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  margin: 0px;
 }
 
 /* This @media means when the screen width is 1600px or

@@ -6,8 +6,63 @@ loadProductsFetch().then(() => {
 });
 function renderProductsGrid() {
   let htmlText = "";
-  products.forEach((product) => {
-    htmlText += `
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get("search");
+  let filterProducts = products;
+  function searchUpdation() {
+    document
+      .querySelector(".search-button")
+      .addEventListener("click", () => {
+        const search = document.querySelector(".search-bar").value;
+        if (search!='') {
+          window.location.href = `amazon.html?search=${search}`;
+        }
+        else {
+          window.location.href = 'amazon.html';
+        }
+      });
+    document
+      .querySelector(".search-bar")
+      .addEventListener("keypress", (event) => {
+        if (event.key == "Enter") {
+          const search = document.querySelector(".search-bar").value;
+          if (search != "") {
+            window.location.href = `amazon.html?search=${search}`;
+          } else {
+            window.location.href = "amazon.html";
+          }
+        }
+      });
+  }
+
+  if (search) {
+    filterProducts = products.filter((product) => {
+      let matchingKeyword = false;
+      product.keywords.forEach((keyword) => {
+        if (keyword.toLowerCase().includes(search.toLowerCase())) {
+          matchingKeyword = true;
+        }
+      });
+      return (
+        matchingKeyword ||
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+  }
+  const noResult = document.querySelector(".empty-results-message");
+  if (filterProducts.length === 0) {
+    noResult.style.display ='block';
+    document.querySelector('.products-grid').innerHTML ="";
+    document.querySelector(".cart-quantity").innerHTML =
+      calculateCartQuantity();
+      document.querySelector(".js-search-bar").value=search;
+      searchUpdation()
+    // renderProductsGrid()
+  } else {
+    document.querySelector(".js-search-bar").value = search;
+    noResult.style.display = 'none';
+    filterProducts.forEach((product) => {
+      htmlText += `
   <div class="product-container">
     <div class="product-image-container">
       <img
@@ -30,9 +85,7 @@ function renderProductsGrid() {
     <div class="product-price">$${product.getPrice()}</div>
     <div class="product-quantity-container">
       <select name="amazonName" class="js-quantity-selector-${product.id}">
-        <option selected value="1">
-          1
-        </option>
+        <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
@@ -55,29 +108,33 @@ function renderProductsGrid() {
       product.id
     }">Add to Cart</button>
   </div>`;
-  });
-
-  function addedAnimation(productId) {
-    let addedToCart = document.querySelector(`.just-added-${productId}`);
-    addedToCart.classList.add("recently-added");
-    if (fresh[productId]) {
-      clearTimeout(fresh[productId]);
-    }
-    fresh[productId] = setTimeout(() => {
-      addedToCart.classList.remove("recently-added");
-    }, 2000);
-  }
-
-  document.querySelector(".products-grid").innerHTML = htmlText;
-  document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
-
-  let fresh = {};
-  document.querySelectorAll(".button-primary").forEach((element) => {
-    //1st EventListener
-    element.addEventListener("click", () => {
-      const productId = element.dataset.productId;
-      addedAnimation(productId);
-      addToCart(productId);
     });
-  });
+
+    function addedAnimation(productId) {
+      let addedToCart = document.querySelector(`.just-added-${productId}`);
+      addedToCart.classList.add("recently-added");
+      if (fresh[productId]) {
+        clearTimeout(fresh[productId]);
+      }
+      fresh[productId] = setTimeout(() => {
+        addedToCart.classList.remove("recently-added");
+      }, 2000);
+    }
+
+    document.querySelector(".products-grid").innerHTML = htmlText;
+    document.querySelector(".cart-quantity").innerHTML =
+      calculateCartQuantity();
+
+    let fresh = {};
+    document.querySelectorAll(".button-primary").forEach((element) => {
+      //1st EventListener
+      element.addEventListener("click", () => {
+        const productId = element.dataset.productId;
+        addedAnimation(productId);
+        addToCart(productId);
+      });
+    });
+    
+    searchUpdation()
+  }
 }

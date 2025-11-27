@@ -20,9 +20,10 @@ export function loadFromStorage() {
   ];
 }
 export function addToCart(productId) {
-  let quantity = Number(
-    document.querySelector(`.js-quantity-selector-${productId}`).value
+  let quantityElement = document.querySelector(
+    `.js-quantity-selector-${productId}`
   );
+  let quantity = quantityElement ? Number(quantityElement.value) : 1;
   let present;
   cart.forEach((ele) => {
     if (ele.productId === productId) {
