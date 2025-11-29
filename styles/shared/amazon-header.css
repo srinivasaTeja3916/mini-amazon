@@ -34,7 +34,7 @@
   border: 1px solid rgba(0, 0, 0, 0);
 }
 
-.header-link:hover {
+.amazon-header .header-link:hover {
   border: 1px solid white;
 }
 
@@ -103,6 +103,66 @@
   justify-content: end;
 }
 
+.amazon-header .right-section-mobile {
+  display: none;
+}
+
+@media (max-width: 575px) {
+  .amazon-header-right-section {
+    display: none;
+  }
+
+  .amazon-header .right-section-mobile {
+    display: block;
+  }
+}
+
+.amazon-header .hamburger-menu-toggle {
+  display: block;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.amazon-header .hamburger-menu-dropdown {
+  background-color: rgb(19, 25, 33);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60px;
+
+  z-index: 100;
+  text-align: center;
+
+  display: none;
+  overflow: hidden;
+
+  /* We will use JavaScript to change this height. */
+  height: 0px;
+  transition: height 0.25s;
+}
+
+@media (max-width: 575px) {
+  .amazon-header .hamburger-menu-dropdown {
+    display: block;
+  }
+
+  .amazon-header .hamburger-menu-opened {
+    height: 88px;
+  }
+
+  .amazon-header .hamburger-menu-link {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    font-weight: 500;
+  }
+
+  .amazon-header .hamburger-menu-link:hover {
+    background-color: rgb(38, 50, 63);
+  }
+}
+
 .orders-link {
   color: white;
 }
@@ -139,11 +199,13 @@
   color: rgb(240, 136, 4);
   font-size: 16px;
   font-weight: 700;
-
   position: absolute;
   top: 4px;
   left: 22px;
-
   width: 26px;
   text-align: center;
+}
+
+.amazon-header .cart-quantity-mobile {
+  color: rgb(240, 136, 4);
 }

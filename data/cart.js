@@ -40,6 +40,8 @@ export function addToCart(productId) {
     });
   }
   document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
+  document.querySelector(".js-cart-quantity-mobile").innerHTML =
+  calculateCartQuantity();
   saveToStorage();
 }
 export function calculateCartQuantity() {

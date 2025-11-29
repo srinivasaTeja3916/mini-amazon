@@ -73,8 +73,28 @@ async function loadTrackingPage() {
     </div>
   </div>`;
 
+  function toggleDropdownMenu() {
+    const toggleBtn = document.querySelector(".js-hamburger-menu-toggle");
+    const dropdownMenu = document.querySelector(
+      ".js-hamburger-menu-dropdown"
+    );
+    toggleBtn.addEventListener("click", () => {
+      const isOpened = dropdownMenu.classList.contains(
+        "hamburger-menu-opened"
+      );
+
+      if (!isOpened) {
+        dropdownMenu.classList.add("hamburger-menu-opened");
+      } else {
+        dropdownMenu.classList.remove("hamburger-menu-opened");
+      }
+    });
+  }
+  toggleDropdownMenu();
   document.querySelector(".main").innerHTML = trackingHTML;
   document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
+  document.querySelector(".js-cart-quantity-mobile").innerHTML =
+    calculateCartQuantity();
 }
 loadTrackingPage();
 document.querySelector(".search-button").addEventListener("click", () => {
