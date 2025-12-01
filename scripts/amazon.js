@@ -150,6 +150,6 @@ function renderProductsGrid() {
       });
     });
     toggleDropdownMenu();
-    
+    searchUpdation(); 
   }
 }
