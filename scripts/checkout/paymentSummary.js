@@ -64,7 +64,7 @@ export function renderPaymentSummary() {
     document
       .querySelector(".referal-to-products")
       .addEventListener("click", () => {
-        window.location.href = "amazon.html";
+        window.location.href = "index.html";
       });
   }
   document

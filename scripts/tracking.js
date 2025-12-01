@@ -100,18 +100,18 @@ loadTrackingPage();
 document.querySelector(".search-button").addEventListener("click", () => {
   const search = document.querySelector(".search-bar").value;
   if (search != "") {
-    window.location.href = `amazon.html?search=${search}`;
+    window.location.href = `index.html?search=${search}`;
   } else {
-    window.location.href = "amazon.html";
+    window.location.href = "index.html";
   }
 });
 document.querySelector(".search-bar").addEventListener("keypress", (event) => {
   if (event.key == "Enter") {
     const search = document.querySelector(".search-bar").value;
     if (search != "") {
-      window.location.href = `amazon.html?search=${search}`;
+      window.location.href = `index.html?search=${search}`;
     } else {
-      window.location.href = "amazon.html";
+      window.location.href = "index.html";
     }
   }
 });
