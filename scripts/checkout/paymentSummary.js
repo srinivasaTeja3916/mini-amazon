@@ -52,6 +52,9 @@ export function renderPaymentSummary() {
     </button>
   `;
   document.querySelector(".payment-summary").innerHTML = paymentSummaryHtML;
+  document.querySelector(
+    ".return-to-home-link"
+  ).innerHTML = `${calculateCartQuantity()} Items`;
   const common = document.querySelector(".place-order-button");
   if (calculateCartQuantity() === 0) {
     common.classList.add("payment-button-disabled");
